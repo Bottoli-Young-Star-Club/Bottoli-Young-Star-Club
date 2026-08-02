@@ -8,30 +8,29 @@ This project is built to digitize the organization's activities, members, events
 
 ## 🚀 Tech Stack
 
-- **Framework:** Next.js 15 (App Router)
+- **Framework:** Next.js 16 (App Router)
 - **Language:** TypeScript
 - **Styling:** Tailwind CSS
 - **Database:** Firebase Firestore
 - **Authentication:** Firebase Authentication
 - **Storage:** Firebase Storage
-- **Hosting:** Cloudflare Pages
+- **Hosting:** Cloudflare Workers
+- **Runtime adapter:** OpenNext for Cloudflare
 - **CDN & DNS:** Cloudflare
 - **Image Optimization:** Next.js Image
-- **Deployment:** Cloudflare Pages + GitHub
+- **Deployment:** Cloudflare Workers + GitHub
 
 ---
 
 ## 📁 Project Structure
 
 ```
-app/
-components/
-lib/
-hooks/
-types/
+src/app/
+src/components/
+src/lib/
+src/hooks/
+src/types/
 public/
-styles/
-firebase/
 ```
 
 ---
@@ -115,12 +114,14 @@ npm start
 
 ---
 
-## ☁️ Cloudflare Deployment
+## ☁️ Cloudflare Workers Deployment
 
-### Install Wrangler
+The project uses the OpenNext Cloudflare adapter and deploys as a Cloudflare Worker.
+
+### Local Cloudflare preview
 
 ```bash
-npm install -D wrangler
+npm run preview
 ```
 
 Login
@@ -135,26 +136,21 @@ Deploy
 npm run deploy
 ```
 
-Or connect the GitHub repository directly with **Cloudflare Pages**.
+The deploy command builds the Next.js application with OpenNext and runs `wrangler deploy`.
 
-Build Settings
+Cloudflare Worker settings
 
 ```
-Framework Preset:
-Next.js
-
-Build Command:
-npm run build
-
-Output Directory:
-.next
+Worker entrypoint: .open-next/worker.js
+Static assets: .open-next/assets
+Compatibility flag: nodejs_compat
 ```
 
 ---
 
 ## 🌐 Environment Variables
 
-Configure the following variables in **Cloudflare Pages**:
+Configure the following variables in **Cloudflare Workers** or your CI/CD provider:
 
 - NEXT_PUBLIC_FIREBASE_API_KEY
 - NEXT_PUBLIC_FIREBASE_AUTH_DOMAIN
